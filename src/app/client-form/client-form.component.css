@@ -1,0 +1,11 @@
+.full-width {
+  width: 100%;
+}
+.loading-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+  font-size: 1.2em;
+  color: #3f51b5; /* cor personalizada */
+}

@@ -1,0 +1,151 @@
+<div *ngIf="isLoading" class="loading-spinner">
+  <mat-spinner diameter="40"></mat-spinner>
+  <p>Processando, por favor aguarde...</p>
+</div>
+<form [formGroup]="clientForm" (ngSubmit)="onSubmit()" *ngIf="!isLoading">
+  <mat-form-field>
+    <input matInput placeholder="CPF/CNPJ" formControlName="cpfCnpj" required />
+    <mat-error *ngIf="clientForm.get('cpfCnpj')?.hasError('required')">
+      CPF/CNPJ é obrigatório.
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input
+      matInput
+      placeholder="Razão Social"
+      formControlName="razaoSocial"
+      required
+    />
+    <mat-error *ngIf="clientForm.get('razaoSocial')?.hasError('required')">
+      Razão Social é obrigatória.
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput placeholder="Bairro" formControlName="bairro" required />
+    <mat-error *ngIf="clientForm.get('bairro')?.hasError('required')">
+      Bairro é obrigatório.
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput placeholder="Cidade" formControlName="cidade" required />
+    <mat-error *ngIf="clientForm.get('cidade')?.hasError('required')">
+      Cidade é obrigatória.
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Estado</mat-label>
+    <mat-select formControlName="estado" required>
+      <mat-option *ngFor="let estado of estados" [value]="estado">
+        {{ estado }}
+      </mat-option>
+    </mat-select>
+    <mat-error *ngIf="clientForm.get('estado')?.hasError('required')">
+      Estado é obrigatório.
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input
+      matInput
+      placeholder="Telefone"
+      formControlName="telefone"
+      required
+    />
+    <mat-error *ngIf="clientForm.get('telefone')?.hasError('required')">
+      Telefone é obrigatório.
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input
+      matInput
+      placeholder="Email"
+      formControlName="email"
+      type="email"
+      required
+    />
+    <mat-error *ngIf="clientForm.get('email')?.hasError('required')">
+      Email é obrigatório.
+    </mat-error>
+    <mat-error *ngIf="clientForm.get('email')?.hasError('email')">
+      Formato de email inválido.
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput placeholder="CEP" formControlName="cep" required />
+    <mat-error *ngIf="clientForm.get('cep')?.hasError('required')">
+      CEP é obrigatório.
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input
+      matInput
+      placeholder="Data de Inclusão"
+      formControlName="dataInclusao"
+      [matDatepicker]="picker"
+      required
+    />
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+    <mat-error *ngIf="clientForm.get('dataInclusao')?.hasError('required')">
+      Data de Inclusão é obrigatória.
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input
+      matInput
+      placeholder="Endereço"
+      formControlName="endereco"
+      required
+    />
+    <mat-error *ngIf="clientForm.get('endereco')?.hasError('required')">
+      Endereço é obrigatório.
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-select placeholder="Situação" formControlName="situacao" required>
+      <mat-option value="Em Processo">Em Processo</mat-option>
+      <mat-option value="Nome Limpo">Nome Limpo</mat-option>
+    </mat-select>
+    <mat-error *ngIf="clientForm.get('situacao')?.hasError('required')">
+      Situação é obrigatória.
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Relatório (PDF)</mat-label>
+    <input
+      matInput
+      placeholder="Selecione o arquivo"
+      [value]="selectedFileName"
+      readonly
+    />
+    <button mat-button type="button" matSuffix (click)="fileInput.click()">
+      Escolher Arquivo
+    </button>
+    <input
+      type="file"
+      #fileInput
+      (change)="onFileSelected($event)"
+      accept="application/pdf"
+      hidden
+    />
+  </mat-form-field>
+
+  <button
+    mat-raised-button
+    color="primary"
+    type="submit"
+    [disabled]="clientForm.invalid"
+  >
+    Cadastrar Cliente
+  </button>
+</form>

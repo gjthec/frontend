@@ -1,0 +1,13 @@
+.spacer {
+    flex: 1 1 auto;
+  }
+  
+  .content {
+    padding: 16px;
+  }
+  
+  .active-link {
+    font-weight: bold;
+    color: #fff;
+  }
+  

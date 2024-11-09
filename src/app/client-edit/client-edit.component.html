@@ -1,0 +1,99 @@
+<!-- Spinner de carregamento -->
+<div *ngIf="isLoading" class="loading-spinner">
+  <mat-spinner diameter="40"></mat-spinner>
+  <p>Processando, por favor aguarde...</p>
+</div>
+
+<!-- Formulário de cliente -->
+<form
+  [formGroup]="clientForm"
+  (ngSubmit)="onSubmit()"
+  *ngIf="!isLoading"
+  class="client-form"
+>
+  <!-- Campo CPF/CNPJ -->
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>CPF/CNPJ</mat-label>
+    <input matInput formControlName="cpfcnpj" required />
+    <mat-error *ngIf="clientForm.get('cpfcnpj')?.hasError('required')">
+      CPF/CNPJ é obrigatório.
+    </mat-error>
+  </mat-form-field>
+
+  <!-- Campo Razão Social -->
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Razão Social</mat-label>
+    <input matInput formControlName="razaosocial" required />
+    <mat-error *ngIf="clientForm.get('razaosocial')?.hasError('required')">
+      Razão Social é obrigatória.
+    </mat-error>
+  </mat-form-field>
+
+  <!-- Campo Cidade -->
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Cidade</mat-label>
+    <input matInput formControlName="cidade" required />
+    <mat-error *ngIf="clientForm.get('cidade')?.hasError('required')">
+      Cidade é obrigatória.
+    </mat-error>
+  </mat-form-field>
+
+  <!-- Campo Estado -->
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Estado</mat-label>
+    <mat-select formControlName="estado" required>
+      <mat-option *ngFor="let estado of estados" [value]="estado">
+        {{ estado }}
+      </mat-option>
+    </mat-select>
+    <mat-error *ngIf="clientForm.get('estado')?.hasError('required')">
+      Estado é obrigatório.
+    </mat-error>
+  </mat-form-field>
+
+  <!-- Campo Situação -->
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Situação</mat-label>
+    <mat-select formControlName="situacao" required>
+      <mat-option value="Em Processo">Em Processo</mat-option>
+      <mat-option value="Nome Limpo">Nome Limpo</mat-option>
+    </mat-select>
+    <mat-error *ngIf="clientForm.get('situacao')?.hasError('required')">
+      Situação é obrigatória.
+    </mat-error>
+  </mat-form-field>
+
+  <!-- Campo Relatório (PDF) -->
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Relatório (PDF)</mat-label>
+    <input
+      matInput
+      placeholder="Selecione o arquivo"
+      [value]="nome_arquivo"
+      readonly
+    />
+    <mat-hint *ngIf="nome_arquivo"
+      >Arquivo selecionado: {{ nome_arquivo }}</mat-hint
+    >
+    <button mat-button type="button" matSuffix (click)="fileInput.click()">
+      Escolher Arquivo
+    </button>
+    <input
+      type="file"
+      #fileInput
+      (change)="onFileSelected($event)"
+      accept="application/pdf"
+      hidden
+    />
+  </mat-form-field>
+
+  <!-- Botão de Envio -->
+  <button
+    mat-raised-button
+    color="primary"
+    type="submit"
+    [disabled]="clientForm.invalid || isLoading"
+  >
+    Salvar Cliente
+  </button>
+</form>
